@@ -1,0 +1,19 @@
+# env & secrets
+.env
+.env.*
+
+# python venv
+.venv/
+venv/
+
+# python cache
+__pycache__/
+*.py[cod]
+
+# logs
+*.log
+
+# editor
+.vscode/
+.idea/
+.DS_Store

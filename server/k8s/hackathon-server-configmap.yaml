@@ -1,0 +1,27 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: hackathon-server-config
+  namespace: diagnostics
+data:
+  HOST: "0.0.0.0"
+  PORT: "8080"
+
+  # ---- LLM (Nemotron) ----
+  LLM_API_URL: "http://llama-3-3-nemotron-super-49b.nim-models.svc.cluster.local:8000/v1/chat/completions"
+  LLM_MODEL_NAME: "nvidia/llama-3.3-nemotron-super-49b-v1"
+
+  # ---- Embeddings ----
+  EMBED_API_URL: "http://llama-3-2-nv-embedqa-1b-v2.nim-models.svc.cluster.local:8000/v1/embeddings"
+  EMBED_MODEL_NAME: "nvidia/llama-3.2-nv-embedqa-1b-v2"
+  EMBED_DIMS: "1024"
+
+  # ---- RAG ----
+  TOP_K: "5"
+  CHUNK_SIZE: "500"
+  CHUNK_OVERLAP: "100"
+  MAX_LOG_CHARS: "14000"
+  MAX_CONTEXT_CHARS: "12000"
+
+  # ---- Chroma ----
+  CHROMA_COLLECTION: "kb_hackathon"

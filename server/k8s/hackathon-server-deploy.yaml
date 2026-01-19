@@ -1,0 +1,49 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hackathon-server
+  namespace: diagnostics
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: hackathon-server
+  template:
+    metadata:
+      labels:
+        app: hackathon-server
+    spec:
+      containers:
+        - name: server
+          image: pfeng-harbor.pfenglab.dell.com/aihack/hackathon-server:0.2
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          envFrom:
+            - configMapRef:
+                name: hackathon-server-config
+          volumeMounts:
+            - name: chroma-data
+              mountPath: /app/data/chroma
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 5
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 15
+            periodSeconds: 20
+          resources:
+            requests:
+              cpu: "200m"
+              memory: "512Mi"
+            limits:
+              cpu: "1"
+              memory: "2Gi"
+      volumes:
+        - name: chroma-data
+          emptyDir: {}
