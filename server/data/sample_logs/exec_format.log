@@ -1,0 +1,4 @@
+Events:
+  Warning  BackOff  2m  kubelet  Back-off restarting failed container
+  Normal   Pulled   3m  kubelet  Successfully pulled image "aible/tensorrt-llm:spark-single-gpu-dev"
+  Warning  Failed   3m  kubelet  Error: failed to start container "tensorrt-llm": Error response from daemon: exec /bin/bash: exec format error

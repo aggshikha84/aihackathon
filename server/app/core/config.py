@@ -27,5 +27,11 @@ class Settings(BaseModel):
     # Server
     host: str = os.getenv("HOST", "0.0.0.0")
     port: int = int(os.getenv("PORT", "8080"))
+    
+    # Mock web search
+    enable_mock_web_search: bool = os.getenv("ENABLE_MOCK_WEB_SEARCH", "true").lower() == "true"
+    web_mock_top_k: int = int(os.getenv("WEB_MOCK_TOP_K", "3"))
+
+    debug_pipeline: bool = os.getenv("DEBUG_PIPELINE", "true").lower() == "true"
 
 settings = Settings()

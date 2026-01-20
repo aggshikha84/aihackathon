@@ -1,0 +1,5 @@
+Last State: Terminated
+  Reason: OOMKilled
+  Exit Code: 137
+Events:
+  Warning  OOMKilled  kubelet  Container out of memory

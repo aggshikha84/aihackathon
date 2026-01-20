@@ -1,0 +1,4 @@
+Warning  Failed     2m   kubelet  Error: failed to start container "diag-agent": Error response from daemon:
+exec /bin/bash: exec format error
+Normal   Pulled     2m   kubelet  Successfully pulled image "myrepo/diag-agent:latest"
+Warning  BackOff    90s  kubelet  Back-off restarting failed container

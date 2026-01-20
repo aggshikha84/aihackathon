@@ -6,7 +6,21 @@ CRITIC_SYSTEM = """You are a strict reviewer of incident response plans.
 Check the plan for: correctness, specificity, safety, and whether it is grounded in the provided log/context.
 Return ONLY valid JSON (no markdown, no extra text)."""
 
-def planner_prompt(log_text: str, contexts: list[dict]) -> str:
+def _format_web_results(web_results: list[dict]) -> str:
+    if not web_results:
+        return ""
+    blocks = []
+    for r in web_results:
+        blocks.append(
+            f"- TITLE: {r.get('title')}\n"
+            f"  SOURCE: {r.get('source')}\n"
+            f"  SCORE: {r.get('score')}\n"
+            f"  SNIPPET:\n{r.get('snippet')}\n"
+        )
+    return "\n".join(blocks)
+
+
+def planner_prompt(log_text: str, contexts: list[dict], web_results: list[dict] | None = None) -> str:
     # contexts: [{text, source, distance}, ...]
     ctx_block = []
     for c in contexts:
@@ -16,6 +30,8 @@ def planner_prompt(log_text: str, contexts: list[dict]) -> str:
             f"  TEXT: {c.get('text')}\n"
         )
     ctx_str = "\n".join(ctx_block)
+    web_str = _format_web_results(web_results or [])
+    web_section = f"\nMOCK WEB SEARCH RESULTS:\n{web_str}\n" if web_str else ""
 
     return f"""
 You are given:
@@ -44,12 +60,13 @@ LOG:
 
 RETRIEVED KB SNIPPETS:
 {ctx_str}
+{web_section}
 
 Return ONLY JSON.
 """.strip()
 
 
-def critic_prompt(log_text: str, contexts: list[dict], plan_json: str) -> str:
+def critic_prompt(log_text: str, contexts: list[dict], plan_json: str,  web_results: list[dict] | None = None) -> str:
     ctx_block = []
     for c in contexts:
         ctx_block.append(
@@ -58,6 +75,8 @@ def critic_prompt(log_text: str, contexts: list[dict], plan_json: str) -> str:
             f"  TEXT: {c.get('text')}\n"
         )
     ctx_str = "\n".join(ctx_block)
+    web_str = _format_web_results(web_results or [])
+    web_section = f"\nMOCK WEB SEARCH RESULTS:\n{web_str}\n" if web_str else ""
 
     return f"""
 Review the proposed plan. Verify:
@@ -74,6 +93,7 @@ LOG:
 
 RETRIEVED KB SNIPPETS:
 {ctx_str}
+{web_section}
 
 PROPOSED PLAN JSON:
 {plan_json}

@@ -1,0 +1,3 @@
+Warning  Failed     1m   kubelet  Failed to pull image "pfeng-harbor.pfenglab.dell.com/aible/app-se:missingtag": rpc error: code = NotFound desc = failed to resolve reference
+Warning  Failed     1m   kubelet  Error: ErrImagePull
+Warning  BackOff    50s  kubelet  Back-off pulling image "pfeng-harbor.pfenglab.dell.com/aible/app-se:missingtag"

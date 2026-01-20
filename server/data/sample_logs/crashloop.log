@@ -1,0 +1,7 @@
+kubectl describe pod app-xyz -n demo
+State: Waiting
+  Reason: CrashLoopBackOff
+Last State: Terminated
+  Reason: Error
+  Exit Code: 1
+  Message: "Config file not found: /etc/app/config.yaml"
