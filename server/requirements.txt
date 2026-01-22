@@ -5,3 +5,4 @@ requests==2.32.3
 pydantic==2.8.2
 chromadb==0.5.5
 python-multipart==0.0.9
+chainlit>=1.1.0
